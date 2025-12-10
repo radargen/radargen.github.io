@@ -48,7 +48,7 @@ a {
 
 /* Utilities */
 .container {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -84,7 +84,7 @@ a {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.02em;
-    max-width: 900px;
+    max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -202,14 +202,14 @@ a {
     color: var(--text-secondary);
     text-align: center;
     margin-top: 16px;
-    max-width: 800px;
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
 }
 
 /* Abstract */
 .abstract-content {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     text-align: justify;
     font-size: 1.1rem;
@@ -266,8 +266,8 @@ a {
 .lightbox-content {
     margin: auto;
     display: block;
-    width: 80%;
-    max-width: 1200px;
+    width: 90%;
+    max-width: 1400px;
     max-height: 90vh;
     object-fit: contain;
     border-radius: var(--radius-md);
@@ -316,7 +316,7 @@ a {
 /* Slider Section */
 .slider-container {
     position: relative;
-    max-width: 1000px;
+    max-width: 1100px;
     /* Use full container width */
     margin: 0 auto;
     overflow: hidden;
@@ -392,7 +392,7 @@ a {
 .img-pos-right {
     display: block;
     margin-left: 0;
-    transform: translateX(-61%);
+    transform: translateX(-63%);
     max-width: none;
 }
 
@@ -401,7 +401,7 @@ a {
 }
 
 .img-pos-right:hover {
-    transform: translateX(-61%) scale(1.01);
+    transform: translateX(-63%) scale(1.01);
 }
 
 /* Controls */
@@ -514,7 +514,7 @@ a {
 /* BibTeX */
 .bibtex-wrapper {
     position: relative;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
 }
 
@@ -580,5 +580,58 @@ footer a {
     .link-btn {
         width: 100%;
         justify-content: center;
+    }
+
+    /* Method Slider Mobile Optimizations */
+    .slider-pagination {
+        grid-template-columns: 1fr;
+        /* Stack buttons vertically */
+        gap: 8px;
+    }
+
+    .nav-btn {
+        padding: 10px;
+        font-size: 0.9rem;
+        text-align: left;
+        /* Align text left for list-like feel */
+    }
+
+    .slider-controls {
+        gap: 30px;
+        /* More space between controls for touch */
+    }
+
+    .control-btn {
+        width: 48px;
+        /* Larger touch targets */
+        height: 48px;
+        background-color: #f3f4f6;
+        /* Visible background for easier tapping */
+    }
+
+    /* Fix Image Scaling */
+    .slider-image-container {
+        height: auto !important;
+        /* Override JS if needed, though JS clears it */
+        min-height: 200px;
+    }
+
+    .img-pos-left,
+    .img-pos-right {
+        width: 190%;
+        /* Zoom in to match desktop crop feel */
+        max-width: none;
+        height: auto;
+    }
+
+    .img-pos-left {
+        /* Align left side */
+        margin-left: 0;
+    }
+
+    .img-pos-right {
+        /* Shift to show right side */
+        transform: translateX(-61%);
+        margin-left: 0;
     }
 }

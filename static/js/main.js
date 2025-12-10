@@ -218,10 +218,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Sync Heights Function
         const syncHeights = () => {
+            // Disable on mobile - let CSS handle aspect ratios
+            if (window.innerWidth < 768) {
+                document.querySelectorAll('.slider-image-container, .img-crop-container').forEach(el => {
+                    el.style.height = '';
+                    el.style.display = '';
+                    el.style.alignItems = '';
+                });
+                document.querySelectorAll('.slider-image-container img, .img-pos-left, .img-pos-right').forEach(img => {
+                    img.style.height = '';
+                    img.style.width = '';
+                });
+                return;
+            }
+
             const firstImg = slides[0].querySelector('.slider-img');
             if (firstImg) {
                 // Ensure image is loaded
                 if (firstImg.complete) {
+                    // RESET Step 1 styles to get natural height based on current width
+                    const firstContainer = slides[0].querySelector('.slider-image-container');
+                    if (firstContainer) {
+                        firstContainer.style.height = '';
+                        firstImg.style.height = '';
+                    }
+
                     const height = firstImg.offsetHeight;
                     if (height > 0) {
                         document.querySelectorAll('.slider-image-container').forEach(container => {

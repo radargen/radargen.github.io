@@ -6,10 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="RadarGen: Project Page">
     <title>RadarGen: Automotive Radar Point Cloud Generation from Cameras</title>
+    <link rel="icon" href="static/images/radargen_favicon.png" type="image/png">
 
     <!-- Google Fonts & Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+    <!-- Social Media Meta Tags -->
+    <meta property="og:title" content="RadarGen: Automotive Radar Point Cloud Generation from Cameras" />
+    <meta property="og:description" content="We present RadarGen, a diffusion model for synthesizing realistic automotive
+                radar point clouds from multi-view camera imagery.
+                RadarGen adapts efficient image-latent diffusion to the radar domain by
+                representing radar measurements in bird’s-eye-view form that encodes spatial structure together with
+                radar cross
+                section (RCS) and Doppler attributes.
+                A lightweight recovery step reconstructs point clouds from the generated maps.
+                To better align generation with the visual scene, RadarGen incorporates
+                BEV-aligned depth, semantic, and motion cues extracted from pretrained foundation models, which
+                guide the stochastic generation
+                process toward physically plausible radar patterns.
+                Conditioning on images makes the approach broadly compatible, in principle, with existing visual
+                datasets and simulation frameworks, offering a scalable direction for multimodal generative
+                simulation.
+                Evaluations on large-scale driving data show that RadarGen captures
+                characteristic radar measurement
+                distributions and reduces the gap to perception models trained on real data, marking a step toward
+                unified generative simulation across sensing modalities." />
+    <meta property="og:url" content="https://radargen.github.io/" />
+    <meta property="og:image" content="https://radargen.github.io/static/images/teaser_im.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:type" content="website" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="RadarGen: Automotive Radar Point Cloud Generation from Cameras" />
+    <meta name="twitter:description" content="We present RadarGen, a diffusion model for synthesizing realistic automotive
+                radar point clouds from multi-view camera imagery.
+                RadarGen adapts efficient image-latent diffusion to the radar domain by
+                representing radar measurements in bird’s-eye-view form that encodes spatial structure together with
+                radar cross
+                section (RCS) and Doppler attributes.
+                A lightweight recovery step reconstructs point clouds from the generated maps.
+                To better align generation with the visual scene, RadarGen incorporates
+                BEV-aligned depth, semantic, and motion cues extracted from pretrained foundation models, which
+                guide the stochastic generation
+                process toward physically plausible radar patterns.
+                Conditioning on images makes the approach broadly compatible, in principle, with existing visual
+                datasets and simulation frameworks, offering a scalable direction for multimodal generative
+                simulation.
+                Evaluations on large-scale driving data show that RadarGen captures
+                characteristic radar measurement
+                distributions and reduces the gap to perception models trained on real data, marking a step toward
+                unified generative simulation across sensing modalities." />
+    <meta name="twitter:image" content="https://radargen.github.io/static/images/teaser_im.jpg" />
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="static/css/styles.css">
@@ -25,19 +73,26 @@
         <div class="container">
             <h1 class="title">RadarGen: Automotive Radar Point Cloud Generation from Cameras</h1>
 
-            <div class="publication-venue">
+            <!-- <div class="publication-venue">
                 <span>Conference 202X</span>
-            </div>
+            </div> -->
 
             <div class="authors">
-                <span class="author-block"><a href="#">Author Name</a><sup>1</sup>,</span>
-                <span class="author-block"><a href="#">Author Name</a><sup>2</sup>,</span>
-                <span class="author-block"><a href="#">Author Name</a><sup>1</sup></span>
+                <span class="author-block"><a href="https://tomerborreda.github.io/">Tomer
+                        Borreda</a><sup>1</sup>,</span>
+                <span class="author-block"><a href="https://toytiny.github.io/">Fangqiang Ding</a><sup>3</sup>,</span>
+                <span class="author-block"><a href="https://www.cs.utoronto.ca/~fidler/">Sanja
+                        Fidler</a><sup>2,4,5</sup>,</span>
+                <span class="author-block"><a href="https://shengyuh.github.io/">Shengyu Huang</a><sup>2</sup>,</span>
+                <span class="author-block"><a href="https://orlitany.github.io/">Or Litany</a><sup>1,2</sup></span>
             </div>
 
             <div class="affiliations">
-                <span class="author-block"><sup>1</sup>University Name</span>
-                <span class="author-block"><sup>2</sup>Research Lab</span>
+                <span class="author-block"><sup>1</sup>Technion</span>
+                <span class="author-block"><sup>2</sup>NVIDIA</span>
+                <span class="author-block"><sup>3</sup>XXXXXX</span>
+                <span class="author-block"><sup>4</sup>University of Toronto</span>
+                <span class="author-block"><sup>5</sup>Vector Institute</span>
             </div>
 
             <div class="publication-links">
@@ -49,10 +104,10 @@
                     <span class="icon"><i class="ai ai-arxiv"></i></span>
                     <span>arXiv</span>
                 </a>
-                <a href="#" class="link-btn">
+                <!-- <a href="#" class="link-btn">
                     <span class="icon"><i class="fab fa-youtube"></i></span>
                     <span>Video</span>
-                </a>
+                </a> -->
                 <a href="#" class="link-btn">
                     <span class="icon"><i class="fab fa-github"></i></span>
                     <span>Code</span>
@@ -78,8 +133,13 @@
                     images.
                 </p>
                 <p style="color: var(--text-secondary); max-width: 800px; margin: 0 auto;">
-                    The animation above shows the generation process. Input camera images (left) are transformed into
-                    realistic 3D radar point clouds (right), preserving scene geometry and handling occlusions.
+                    Given multi-view camera images, <span class="sc">RadarGen</span> synthesizes realistic radar point
+                    clouds that align with
+                    real-world statistics and can be consumed by downstream perception models. The generated point
+                    clouds preserve scene geometry and handle occlusions. For example, modifying the input scene with an
+                    off-the-shelf image editing tool (e.g., replacing a distant car with a closer truck)
+                    updates the radar response, removing returns from newly occluded regions and reflecting the new
+                    object geometry.
                 </p>
             </div>
         </div>
@@ -132,9 +192,10 @@
                                     class="slider-img">
                             </div>
                             <p class="method-text">
-                                The image features are then transformed into a bird's-eye-view (BEV) representation.
-                                This aligns the camera data with the native coordinate system of automotive radar
-                                sensors.
+                                We begin by transforming radar point clouds into a grid-based
+                                representation suitable for training image-based diffusion models. We rasterize points
+                                into bird’s-eye-view (BEV) maps: a Point Density Map created via Gaussian kernels, and
+                                RCS/Doppler maps formed using Voronoi tessellation.
                             </p>
                         </div>
                     </div>
@@ -148,10 +209,10 @@
                                     class="slider-img">
                             </div>
                             <p class="method-text">
-                                We begin by extracting multi-scale features from the input camera images using a
-                                pre-trained backbone.
-                                This allows us to capture both semantic and geometric cues essential for radar
-                                synthesis.
+                                To bridge the gap between cameras and radar, we convert multi-view images into an
+                                aligned BEV representation. By leveraging foundation models for metric depth,
+                                semantic segmentation, and optical flow, we project visual cues into BEV, providing
+                                the generative model with semantic and geometric context.
                             </p>
                         </div>
                     </div>
@@ -166,9 +227,12 @@
                                     class="slider-img img-pos-left">
                             </div>
                             <p class="method-text">
-                                A latent diffusion model conditionally generates the radar BEV distribution.
-                                It iteratively denoises the latent map, guided by the condition derived from the visual
-                                features.
+                                At the core of <span class="sc">RadarGen</span> is an efficient latent diffusion model
+                                (based on SANA) that
+                                learns to
+                                synthesize these radar maps. Guided by the aligned visual cues, it iteratively
+                                denoises a random latent maps to produce a realistic
+                                distribution of radar returns.
                             </p>
                         </div>
                     </div>
@@ -183,9 +247,10 @@
                                     class="slider-img img-pos-right">
                             </div>
                             <p class="method-text">
-                                Finally, the generated dense radar map is decoded and sampled to produce the sparse 3D
-                                point cloud,
-                                complete with Doppler velocity and RCS information.
+                                Finally, we reconstruct the sparse point cloud by converting the generated dense maps
+                                back into a discrete format. An IRL1 Solver deconvolves the density map to find sparse
+                                point locations, while RCS and Doppler attributes are sampled from their respective maps
+                                at these coordinates.
                             </p>
                         </div>
                     </div>
@@ -220,12 +285,24 @@
     <section class="container">
         <div class="paper-section">
             <div class="section-title">Video</div>
+            <div class="text-center" style="margin-bottom: 10px;">
+                <p style="font-weight: 600; color: var(--text-primary);">
+                    <i class="fas fa-volume-up"></i> Sound On Recommended
+                </p>
+            </div>
             <div class="teaser-container">
                 <!-- <video class="teaser-video" controls autoplay muted loop playsinline> -->
-                <video class="teaser-video" controls muted playsinline>
+                <video class="teaser-video" controls playsinline>
                     <source src="static/images/RadarGen Video.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
+            </div>
+            <div class="text-center" style="margin-top: 15px;">
+                <p style="color: var(--text-secondary); max-width: 1000px; margin: 0 auto;">
+                    This video showcases various scenarios generated by <span class="sc">RadarGen</span>, including
+                    handling
+                    occlusions, dynamic objects, and challenging weather conditions like rain.
+                </p>
             </div>
         </div>
     </section>
@@ -238,9 +315,13 @@
                 <img src="static/images/RadarGen_comparison.png"
                     alt="Qualitative Comparison: Input vs Baseline vs Ours vs Real" class="teaser-img">
             </div>
-            <p class="text-center" style="color: var(--text-secondary); margin-top: 15px;">
-                Comparisons demonstrate that our method captures details missed by the baseline, closely matching the
-                ground truth.
+            <p class="text-center"
+                style="color: var(--text-secondary); margin-top: 15px; max-width: 1000px; margin: 0 auto;">
+                <span class="sc">RadarGen</span>'s generated point clouds closely match the ground truth in shape,
+                distribution, and count,
+                demonstrating a significant advantage over the baseline. <span class="sc">RadarGen</span> uses inputs t
+                and t + ∆t, while the
+                baseline uses only t. Ground truth bounding boxes are highlighted in color.
             </p>
         </div>
     </section>
@@ -254,8 +335,8 @@
                     alt="Controllable Generation: Edited Input to New Radar" class="teaser-img">
             </div>
             <p class="text-center" style="color: var(--text-secondary); margin-top: 15px;">
-                We can generate novel radar scenes by simply editing the input images (e.g., adding or removing
-                vehicles).
+                Modifying the input images using an off-the-shelf image editing tool updates the radar response,
+                demonstrating object removal (left) and insertion (right).
             </p>
         </div>
     </section>
@@ -268,12 +349,13 @@
                 <button class="copy-btn" id="copyBibtexBtn">
                     <i class="fas fa-copy"></i> Copy
                 </button>
-                <pre class="bibtex-container" id="bibtexCode"><code>@article{abc2025method,
+                <pre class="bibtex-container" id="bibtexCode"><code>TBD</code></pre>
+                <!-- <pre class="bibtex-container" id="bibtexCode"><code>@article{abc2025method,
   author    = {Author, Name and Author, Name},
   title     = {RadarGen: Automotive Radar Point Cloud Generation from Cameras},
   journal   = {Conference},
   year      = {202X},
-}</code></pre>
+}</code></pre> -->
             </div>
         </div>
     </section>
