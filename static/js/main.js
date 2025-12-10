@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.method-image, .teaser-img, .result-item img, .slider-img').forEach(img => {
         img.style.cursor = 'zoom-in';
         img.addEventListener('click', () => {
+            if (window.innerWidth < 768) return; // Disable on mobile
             lightbox.style.display = 'block';
             document.body.style.overflow = 'hidden'; // Disable scroll
 
