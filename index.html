@@ -277,6 +277,144 @@
         </div>
     </section>
 
+    <!-- Quantitative Results -->
+    <section class="container">
+        <div class="paper-section">
+            <div class="section-title">Quantitative Evaluation</div>
+
+
+
+            <!-- Table 1: Entire Area -->
+            <div class="table-container">
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" class="method-col">Method</th>
+                            <th colspan="9" class="header-group">Entire Area</th>
+                        </tr>
+                        <tr>
+                            <!-- CD Loc -->
+                            <th>CD Loc.<br>(↓)</th>
+                            <th>CD Full<br>(↓)</th>
+                            <th>IoU@1m<br>(↑)</th>
+                            <th>DA Rec.<br>(↑)</th>
+                            <th>DA Prec.<br>(↑)</th>
+                            <th>DA F1<br>(↑)</th>
+                            <th>MMD Loc.<br>(↓)</th>
+                            <th>MMD RCS<br>(↓)</th>
+                            <th>MMD Dopp.<br>(↓)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="method-col">Baseline</td>
+                            <td>1.84 ± 0.48</td>
+                            <td class="best-result">0.038 ± 0.009</td>
+                            <td>0.23 ± 0.10</td>
+                            <td>0.15 ± 0.10</td>
+                            <td>0.14 ± 0.10</td>
+                            <td>0.14 ± 0.09</td>
+                            <td>0.368 ± 0.151</td>
+                            <td>0.36 ± 0.25</td>
+                            <td>0.65 ± 0.64</td>
+                        </tr>
+                        <tr>
+                            <td class="method-col">RadarGen</td>
+                            <td class="best-result">1.68 ± 0.39</td>
+                            <td>0.040 ± 0.008</td>
+                            <td class="best-result">0.31 ± 0.11</td>
+                            <td class="best-result">0.23 ± 0.12</td>
+                            <td class="best-result">0.26 ± 0.12</td>
+                            <td class="best-result">0.24 ± 0.12</td>
+                            <td class="best-result">0.056 ± 0.062</td>
+                            <td class="best-result">0.09 ± 0.15</td>
+                            <td class="best-result">0.31 ± 0.74</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table 2: Foreground -->
+            <div class="table-container" style="margin-bottom: 0;">
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="3" class="method-col">Method</th>
+                            <th colspan="13" class="header-group">Foreground</th>
+                        </tr>
+                        <tr>
+                            <th rowspan="2">CD Loc.<br>(↓)</th>
+                            <th rowspan="2">CD Full<br>(↓)</th>
+                            <th rowspan="2">Dens. Sim.<br>(↑)</th>
+                            <th rowspan="2">Hit Rate<br>(↑)</th>
+                            <th colspan="3" class="header-group" style="border-bottom: 1px solid #e5e7eb;">MMD Car (↓)
+                            </th>
+                            <th colspan="3" class="header-group" style="border-bottom: 1px solid #e5e7eb;">MMD Truck (↓)
+                            </th>
+                            <th colspan="3" class="header-group" style="border-bottom: 1px solid #e5e7eb;">MMD Trailer
+                                (↓)</th>
+                        </tr>
+                        <tr>
+                            <!-- Car -->
+                            <th>Loc.</th>
+                            <th>RCS</th>
+                            <th>Dopp.</th>
+                            <!-- Truck -->
+                            <th>Loc.</th>
+                            <th>RCS</th>
+                            <th>Dopp.</th>
+                            <!-- Trailer -->
+                            <th>Loc.</th>
+                            <th>RCS</th>
+                            <th>Dopp.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="method-col">Baseline</td>
+                            <td>1.32 ± 0.79</td>
+                            <td>0.075 ± 0.049</td>
+                            <td>0.35 ± 0.43</td>
+                            <td>0.37</td>
+                            <td class="best-result">0.035</td>
+                            <td>0.753</td>
+                            <td>0.549</td>
+                            <td>0.167</td>
+                            <td>0.202</td>
+                            <td>0.485</td>
+                            <td>0.0459</td>
+                            <td>0.064</td>
+                            <td>0.607</td>
+                        </tr>
+                        <tr>
+                            <td class="method-col">RadarGen</td>
+                            <td class="best-result">0.95 ± 0.65</td>
+                            <td class="best-result">0.069 ± 0.049</td>
+                            <td class="best-result">0.51 ± 0.41</td>
+                            <td class="best-result">0.66</td>
+                            <td>0.037</td>
+                            <td class="best-result">0.006</td>
+                            <td class="best-result">0.014</td>
+                            <td class="best-result">0.024</td>
+                            <td class="best-result">0.031</td>
+                            <td class="best-result">0.060</td>
+                            <td class="best-result">0.0069</td>
+                            <td class="best-result">0.022</td>
+                            <td class="best-result">0.046</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="color: var(--text-secondary); max-width: 900px; margin: 15px auto 0 auto;">
+                <span class="sc">RadarGen</span> broadly outperforms the baseline on geometric fidelity (CD, IoU,
+                Density Similarity, Hit Rate), radar attribute fidelity (DA Recall, Precision, F1), and distribution
+                similarity (MMD).
+            </p>
+
+        </div>
+    </section>
+
     <!-- Qualitative Comparison Section -->
     <section class="container">
         <div class="paper-section">
