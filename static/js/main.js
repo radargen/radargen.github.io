@@ -129,161 +129,199 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Slider Logic
-    const sliderWrapper = document.querySelector('.slides-wrapper');
-    const slides = document.querySelectorAll('.slide');
-    const progressBar = document.querySelector('.progress-bar');
-    const btnPrev = document.querySelector('.btn-prev');
-    const btnNext = document.querySelector('.btn-next');
-    const btnPause = document.querySelector('.btn-pause');
-    const navBtns = document.querySelectorAll('.nav-btn');
+    // Slider Class
+    class Slider {
+        constructor(containerElement, options = {}) {
+            this.container = containerElement;
+            this.sliderWrapper = this.container.querySelector('.slides-wrapper');
+            this.slides = this.container.querySelectorAll('.slide');
+            this.progressBar = this.container.querySelector('.progress-bar');
+            this.btnPrev = this.container.querySelector('.btn-prev');
+            this.btnNext = this.container.querySelector('.btn-next');
+            this.btnPause = this.container.querySelector('.btn-pause');
+            this.navBtns = this.container.querySelectorAll('.nav-btn');
 
-    if (sliderWrapper && slides.length > 0) {
-        let currentSlide = 0;
-        let isPaused = false;
-        let progress = 0;
-        const slideDuration = 5000; // 5 seconds
-        const intervalTime = 50; // Update every 50ms
-        let sliderInterval;
+            if (!this.sliderWrapper || this.slides.length === 0) return;
 
-        const updateSlider = () => {
-            sliderWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
-            progress = 0;
-            progressBar.style.width = '0%';
+            this.currentSlide = 0;
+            this.isPaused = false;
+            this.progress = 0;
+            this.slideDuration = options.duration || 5000;
+            this.intervalTime = 50;
+            this.sliderInterval = null;
+            this.autoPlay = options.autoPlay !== undefined ? options.autoPlay : true;
 
-            // Update tabs
-            navBtns.forEach((btn, index) => {
-                if (index === currentSlide) {
+            this.init();
+        }
+
+        init() {
+            // Event Listeners
+            if (this.btnNext) {
+                this.btnNext.addEventListener('click', () => {
+                    this.nextSlide();
+                    this.startTimer();
+                });
+            }
+
+            if (this.btnPrev) {
+                this.btnPrev.addEventListener('click', () => {
+                    this.prevSlide();
+                    this.startTimer();
+                });
+            }
+
+            if (this.btnPause) {
+                this.btnPause.addEventListener('click', () => {
+                    this.isPaused = !this.isPaused;
+                    this.btnPause.innerHTML = this.isPaused ? '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>';
+                });
+            }
+
+            this.navBtns.forEach((btn, index) => {
+                btn.addEventListener('click', () => {
+                    this.goToSlide(index);
+                });
+            });
+
+            this.updateSlider();
+            if (this.autoPlay) {
+                this.startTimer();
+            } else {
+                // If autoplay is off, we still might want to show the play button state correctly?
+                // Or maybe hide the play/pause button? 
+                // For now, if autoplay starts off, we assume it's "paused" initially or just not running.
+                // Let's set isPaused to true effectively if we don't start.
+                this.isPaused = true;
+                if (this.btnPause) {
+                    this.btnPause.innerHTML = '<i class="fas fa-play"></i>';
+                }
+            }
+
+            // Image Sizing Logic (Ported from syncHeights)
+            // We'll run this on init and resize.
+            // Note: syncHeights was global, but it's safer to scope it if possible, 
+            // OR keep a global resizing observer that calls a method on all active sliders.
+            // For simplicity in this refactor, I'll call a bounded height sync function.
+            this.syncHeights();
+            window.addEventListener('resize', () => this.syncHeights());
+
+            // Also retry sync after image load
+            const firstImg = this.slides[0].querySelector('img');
+            if (firstImg && !firstImg.complete) {
+                firstImg.onload = () => this.syncHeights();
+            }
+        }
+
+        updateSlider() {
+            this.sliderWrapper.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+            this.progress = 0;
+            if (this.progressBar) this.progressBar.style.width = '0%';
+
+            this.navBtns.forEach((btn, index) => {
+                if (index === this.currentSlide) {
                     btn.classList.add('active');
                 } else {
                     btn.classList.remove('active');
                 }
             });
-        };
+        }
 
-        const nextSlide = () => {
-            currentSlide = (currentSlide + 1) % slides.length;
-            updateSlider();
-        };
+        nextSlide() {
+            this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+            this.updateSlider();
+        }
 
-        const prevSlide = () => {
-            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-            updateSlider();
-        };
+        prevSlide() {
+            this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+            this.updateSlider();
+        }
 
-        const goToSlide = (index) => {
-            currentSlide = index;
-            updateSlider();
-            startTimer(); // Reset timer
-        };
+        goToSlide(index) {
+            this.currentSlide = index;
+            this.updateSlider();
+            this.startTimer();
+        }
 
-        const startTimer = () => {
-            clearInterval(sliderInterval);
-            sliderInterval = setInterval(() => {
-                if (!isPaused) {
-                    progress += intervalTime;
-                    const percent = (progress / slideDuration) * 100;
-                    progressBar.style.width = `${percent}%`;
+        startTimer() {
+            if (!this.autoPlay && this.isPaused) return;
 
-                    if (progress >= slideDuration) {
-                        nextSlide();
+            clearInterval(this.sliderInterval);
+            this.sliderInterval = setInterval(() => {
+                if (!this.isPaused) {
+                    this.progress += this.intervalTime;
+                    const percent = (this.progress / this.slideDuration) * 100;
+                    if (this.progressBar) this.progressBar.style.width = `${percent}%`;
+
+                    if (this.progress >= this.slideDuration) {
+                        this.nextSlide();
                     }
                 }
-            }, intervalTime);
-        };
+            }, this.intervalTime);
+        }
 
-        // Event Listeners
-        btnNext.addEventListener('click', () => {
-            nextSlide();
-            startTimer(); // Reset timer on manual interaction
-        });
-
-        btnPrev.addEventListener('click', () => {
-            prevSlide();
-            startTimer();
-        });
-
-        btnPause.addEventListener('click', () => {
-            isPaused = !isPaused;
-            btnPause.innerHTML = isPaused ? '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>';
-        });
-
-        // Tab Navigation
-        navBtns.forEach((btn, index) => {
-            btn.addEventListener('click', () => {
-                goToSlide(index);
-            });
-        });
-
-        // Initialize
-
-        // Sync Heights Function
-        const syncHeights = () => {
-            // Disable on mobile - let CSS handle aspect ratios
+        syncHeights() {
             if (window.innerWidth < 768) {
-                document.querySelectorAll('.slider-image-container, .img-crop-container').forEach(el => {
+                // Reset styles for mobile
+                this.container.querySelectorAll('.slider-image-container, .img-crop-container').forEach(el => {
                     el.style.height = '';
                     el.style.display = '';
                     el.style.alignItems = '';
                 });
-                document.querySelectorAll('.slider-image-container img, .img-pos-left, .img-pos-right').forEach(img => {
+                this.container.querySelectorAll('.slider-image-container img, .img-pos-left, .img-pos-right').forEach(img => {
                     img.style.height = '';
                     img.style.width = '';
                 });
                 return;
             }
 
-            const firstImg = slides[0].querySelector('.slider-img');
-            if (firstImg) {
-                // Ensure image is loaded
-                if (firstImg.complete) {
-                    // RESET Step 1 styles to get natural height based on current width
-                    const firstContainer = slides[0].querySelector('.slider-image-container');
-                    if (firstContainer) {
-                        firstContainer.style.height = '';
-                        firstImg.style.height = '';
-                    }
+            const firstImg = this.slides[0].querySelector('.slider-img');
+            if (!firstImg) return;
 
-                    const height = firstImg.offsetHeight;
-                    if (height > 0) {
-                        document.querySelectorAll('.slider-image-container').forEach(container => {
-                            // Apply height to containers to enforce uniformity
-                            container.style.height = `${height}px`;
-                            container.style.display = 'flex'; // Ensure flex centering
-                            container.style.alignItems = 'center';
-
-                            // FORCE image height to match container
-                            const img = container.querySelector('img');
-                            if (img) {
-                                img.style.height = '100%';
-                                img.style.objectFit = 'contain';
-                            }
-                        });
-
-                        // Update crop containers specifically
-                        document.querySelectorAll('.img-crop-container').forEach(container => {
-                            container.style.height = `${height}px`;
-                        });
-
-                        // Fix shared image sizing to match new container height
-                        document.querySelectorAll('.img-pos-left, .img-pos-right').forEach(img => {
-                            img.style.height = '100%';
-                            img.style.width = 'auto'; // Let width scale naturally
-                            img.style.objectFit = 'cover'; // Ensure it covers the height without gaps
-                        });
-                    }
-                } else {
-                    firstImg.onload = syncHeights;
-                }
+            // Logic adapted to scope:
+            // We use the first slide's image to define the height for all containers in THIS slider.
+            const firstContainer = this.slides[0].querySelector('.slider-image-container');
+            if (firstContainer) {
+                firstContainer.style.height = '';
+                firstImg.style.height = '';
             }
-        };
 
-        // Run sync
-        syncHeights(); // Try immediate
-        window.addEventListener('resize', syncHeights); // Re-sync on resize
+            const height = firstImg.offsetHeight;
+            if (height > 0) {
+                this.container.querySelectorAll('.slider-image-container').forEach(container => {
+                    container.style.height = `${height}px`;
+                    container.style.display = 'flex';
+                    container.style.alignItems = 'center';
 
-        startTimer();
-        startTimer();
+                    const img = container.querySelector('img');
+                    if (img) {
+                        img.style.height = '100%';
+                        img.style.objectFit = 'contain';
+                    }
+                });
+
+                this.container.querySelectorAll('.img-crop-container').forEach(container => {
+                    container.style.height = `${height}px`;
+                });
+
+                this.container.querySelectorAll('.img-pos-left, .img-pos-right').forEach(img => {
+                    img.style.height = '100%';
+                    img.style.width = 'auto'; // Width auto to maintain aspect ratio
+                    img.style.objectFit = 'cover';
+                });
+            }
+        }
+    }
+
+    // Initialize Method Slider
+    const methodSliderInit = document.querySelector('#method-slider'); // We will add this ID to HTML next
+    if (methodSliderInit) {
+        new Slider(methodSliderInit, { autoPlay: true });
+    }
+
+    // Initialize Video Slider (Future-proofing, will add ID later)
+    const videoSliderInit = document.querySelector('#video-slider');
+    if (videoSliderInit) {
+        new Slider(videoSliderInit, { autoPlay: false });
     }
 
     // Copy BibTeX
